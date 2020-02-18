@@ -113,7 +113,6 @@ func (m model) as() string {
 
 func (m model) writeClass(buf *bytes.Buffer) {
 	id := m.as()
-
 	newline(buf, 0)
 	// package
 	buf.WriteString(`package "`)
@@ -137,7 +136,6 @@ func (m model) writeClass(buf *bytes.Buffer) {
 
 func (m model) writeDiagram(buf *bytes.Buffer, ex exists) {
 	from := m.as()
-
 	newline(buf, 0)
 	m.field.writeDiagram(buf, ex, from, 1)
 

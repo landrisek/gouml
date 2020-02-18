@@ -1,4 +1,4 @@
-package plantuml
+package mxgraph
 
 import (
 	"bytes"
@@ -14,16 +14,12 @@ func NewParser(logger log.Logger) *parser {
 	return &parser{
 		logger: log.With(logger, "component", "parser"),
 		models: Models{},
-		notes:  Notes{},
-		ex:     exists{},
 	}
 }
 
 type parser struct {
 	logger log.Logger
 	models Models
-	notes  Notes
-	ex     exists
 }
 
 func (p *parser) Build(pkgs []*types.Package) {
@@ -39,12 +35,6 @@ func (p *parser) Build(pkgs []*types.Package) {
 		for _, name := range scope.Names() {
 			obj := scope.Lookup(name)
 			objects = append(objects, obj)
-
-			if obj.Pkg().Name() == pkg.Name() {
-				if named, _ := obj.Type().(*types.Named); named != nil {
-					p.ex[extractName(named.String())] = struct{}{}
-				}
-			}
 		}
 	}
 
@@ -55,11 +45,6 @@ func (p *parser) Build(pkgs []*types.Package) {
 		case *types.TypeName:
 			p.models.append(obj)
 
-		// declared constant
-		case *types.Const:
-			if named, _ := obj.Type().(*types.Named); named != nil {
-				p.notes.append(named, obj)
-			}
 		}
 	}
 }
@@ -71,8 +56,7 @@ func (p parser) WriteTo(buf *bytes.Buffer) {
 		level.Debug(p.logger).Log("msg", "write to file", "ms", elapsed.Truncate(time.Millisecond))
 	}()
 
-	p.models.WriteTo(buf, p.ex)
-	//p.notes.WriteTo(buf)
+	p.models.WriteTo(buf)
 	newline(buf, 0)
 	newline(buf, 0)
 }

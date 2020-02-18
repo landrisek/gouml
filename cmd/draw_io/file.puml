@@ -1,0 +1,647 @@
+
+package "validate" {
+	class "ErrAgeOutOfRange" as validate.ErrAgeOutOfRange <<V,Orchid>> {
+		+Age: int
+		+Error(): string
+	}
+}
+package "validate" {
+	class "ErrCountry" as validate.ErrCountry <<V,Orchid>> {
+		+Country: string
+		+Error(): string
+	}
+}
+package "validate" {
+	class "ErrDOB" as validate.ErrDOB <<V,Orchid>> {
+		+DOB: string
+		+Error(): string
+	}
+}
+package "validate" {
+	class "ErrEmail" as validate.ErrEmail <<V,Orchid>> {
+		+Email: string
+		+Error(): string
+	}
+}
+package "validate" {
+	class "ErrGender" as validate.ErrGender <<V,Orchid>> {
+		+Gender: string
+		+Error(): string
+	}
+}
+package "validate" {
+	class "ErrPhoneNumber" as validate.ErrPhoneNumber <<V,Orchid>> {
+		+PhoneNumber: string
+		+Error(): string
+	}
+}
+package "validate" {
+	class "ErrPhoneType" as validate.ErrPhoneType <<V,Orchid>> {
+		+Type: string
+		+Error(): string
+	}
+}
+package "validate" {
+	class "ErrPreferenceFlag" as validate.ErrPreferenceFlag <<V,Orchid>> {
+		+Flag: string
+		+Error(): string
+	}
+}
+package "validate" {
+	class "ErrUserID" as validate.ErrUserID <<V,Orchid>> {
+		+UserID: string
+		+Error(): string
+	}
+}
+package "validate" {
+	class "ErrZIP" as validate.ErrZIP <<V,Orchid>> {
+		+Country: string
+		+ZIP: string
+		+Error(): string
+	}
+}
+package "user" {
+	class "AcvLog" as user.AcvLog <<E,#FFCC00>> {
+		+RwsID: int
+		+Now: func() invalid type
+		+Hostname: string
+		+Records: invalid type
+		+LogExternalIDs(uID: string, pID: int32, m: map[string][]string)
+		+LogInsertPlayerActivity(flags: uint, uID: string, pID: int32, new: *user.Player)
+		+LogPlayerActivity(flags: uint, uID: string, pID: int32, old: *user.Player, new: *user.Player)
+		+LogInsertKsUserActivity(uID: string, pID: int32, new: *user.KSUser)
+		+LogKsUserActivity(uID: string, pID: int32, old: *user.KSUser, new: *user.KSUser)
+		+LogOrgUserDataActivity(uID: string, pID: int32, reqKey: string, data: map[string]user.Value)
+		+LogDeletePhoneNumber(uID: string, pID: int64, ppnID: int32)
+		+LogPhoneNumberActivity(uID: string, pID: int32, pn: *user.phoneNumber, ppn: *user.playerPhoneNumber, isNew: bool)
+		+LogJSONField(uID: string, pID: int32, tag: string, v: user.Identifier, isDelete: bool)
+		+LogExpiringUserTag(uID: string, pID: int32, tag: string, expires: string)
+		-addChangesToLogs(uID: string, pID: int32, s: invalid type, changes: diff.Diff)
+		-addNewUserActivity(uID: string, pID: int32, s: invalid type, field: string, old: string, new: string)
+		-getTime(): invalid type
+	}
+}
+package "user" {
+	class "AddBasicFunc" as user.AddBasicFunc <<V,Orchid>> {
+		+AddBasicFunc(ctx: invalid type, extID: string): (userID: string, playerID: int32, err: error)
+	}
+}
+package "user" {
+	class "AppendedData" as user.AppendedData <<E,#FFCC00>> {
+		+AddVar(orgModel: string, key: string, val: user.Data)
+		+UnmarshalJSON(data: []byte): error
+	}
+}
+package "user" {
+	class "AttributeType" as user.AttributeType <<E,#FFCC00>> {
+		+Scan(v: interface{}): error
+		+Value(): (driver.Value, error)
+	}
+}
+package "user" {
+	class "BoolField" as user.BoolField <<E,#FFCC00>> {
+		+NullBool: sql.NullBool
+		+Present: bool
+		+UnmarshalJSON(data: []byte): error
+		+UnmarshalCSV(data: []byte): error
+	}
+}
+package "user" {
+	interface "Data" as user.Data
+}
+package "user" {
+	class "Date" as user.Date <<V,Orchid>> {
+		+DateTime: user.DateTime
+		+MarshalBinary(): ([]byte, error)
+		+MarshalJSON(): ([]byte, error)
+	}
+}
+package "user" {
+	class "DateTime" as user.DateTime <<V,Orchid>> {
+		+Time: invalid type
+		+MarshalJSON(): ([]byte, error)
+		+MarshalText(): ([]byte, error)
+		+MarshalBinary(): ([]byte, error)
+		+String(): string
+		+Value(): (driver.Value, error)
+	}
+}
+package "user" {
+	class "EmailLookupRequiredError" as user.EmailLookupRequiredError <<V,Orchid>> {
+		+Error(): string
+	}
+}
+package "user" {
+	class "ErrDoesNotExist" as user.ErrDoesNotExist <<V,Orchid>> {
+		+Method: string
+		+Key: string
+		+Error(): string
+	}
+}
+package "user" {
+	class "ErrUnknownAttr" as user.ErrUnknownAttr <<V,Orchid>> {
+		+Attr: string
+		+Error(): string
+	}
+}
+package "user" {
+	class "ExclusionErr" as user.ExclusionErr <<V,Orchid>> {
+		+Value: user.Value
+		+ExcludedValues: []interface{}
+		+Error(): string
+	}
+}
+package "user" {
+	class "FilterRule" as user.FilterRule <<V,Orchid>>
+}
+package "user" {
+	class "FilterRules" as user.FilterRules <<E,#FFCC00>> {
+		+Scan(v: interface{}): error
+		+Value(): (driver.Value, error)
+	}
+}
+package "user" {
+	interface "Identifier" as user.Identifier {
+		+PrimaryKey(): string
+	}
+}
+package "user" {
+	class "InclusionErr" as user.InclusionErr <<V,Orchid>> {
+		+Value: user.Value
+		+ExpectedValues: []interface{}
+		+Error(): string
+	}
+}
+package "user" {
+	class "InconsistentEmailsError" as user.InconsistentEmailsError <<V,Orchid>> {
+		+Error(): string
+	}
+}
+package "user" {
+	class "IntField" as user.IntField <<E,#FFCC00>> {
+		+NullInt64: sql.NullInt64
+		+Present: bool
+		+UnmarshalJSON(data: []byte): error
+		+UnmarshalCSV(data: []byte): error
+	}
+}
+package "user" {
+	class "InvalidJSONListErr" as user.InvalidJSONListErr <<V,Orchid>> {
+		+Type: string
+		+Data: string
+		+Error(): string
+	}
+}
+package "user" {
+	class "InvalidTypeErr" as user.InvalidTypeErr <<V,Orchid>> {
+		+Type: user.AttributeType
+		+List: bool
+		+Value: user.Value
+		+Error(): string
+	}
+}
+package "user" {
+	class "KSTime" as user.KSTime <<V,Orchid>> {
+		+Time: corm.Time
+		+Change(): (string, error)
+		+IsZero(): bool
+	}
+}
+package "user" {
+	class "KSUser" as user.KSUser <<E,#FFCC00>> {
+		+Model: corm.Model
+		+PlayerID: int32
+		+DOB: corm.NullString
+		+Gender: corm.NullString
+		+ZIP: corm.NullString
+		+HomeZIP: corm.NullString
+		+DMA: corm.NullString
+		+HomeDMA: corm.NullString
+		+Country: corm.NullString
+		+HomeCountry: corm.NullString
+		+State: corm.NullString
+		+HomeState: corm.NullString
+		+HomeCity: corm.NullString
+		+Ethnicity: corm.NullString
+		+HHI: corm.NullString
+		+Locale: corm.NullString
+		+Parent: corm.NullString
+		+HomeAddressEncrypted: enc.NullEncryptedString
+		+HomeAddress2Encrypted: enc.NullEncryptedString
+		+OptedOut: bool
+		+AppExperiments: corm.NullString
+		+CachedAvailablePoints: corm.NullString
+		+CreatedAt: user.KSTime
+		+DeviceIDs: corm.NullString
+		+HasNotSeenAchievements: corm.NullString
+		+LastSeenAt: corm.Date
+		+LastSessionStartedAt: corm.Date
+		+LastUserSessionIDs: corm.NullString
+		+PlayerDataCenterID: corm.NullString
+		+SchemaVersion: corm.NullString
+		+UpdatedAt: user.KSTime
+		+SourceApplicationID: int
+		+PrimaryExternalID: corm.NullString
+		-setDefaults(appID: int)
+	}
+}
+package "user" {
+	class "KsUserKey" as user.KsUserKey <<V,Orchid>> {
+		+RwsID: int32
+		+UserID: string
+		+Args(cf: string): []interface{}
+		+String(): string
+	}
+}
+package "user" {
+	class "Legacy" as user.Legacy <<V,Orchid>> {
+		-logpub: invalid type
+		+Publish(ctx: invalid type, recs: invalid type): error
+		+Close(): error
+	}
+}
+package "user" {
+	class "Length" as user.Length <<E,#FFCC00>> {
+		+Max: *int
+		+Min: *int
+		+Is: *int
+		+Scan(v: interface{}): error
+		+Value(): (driver.Value, error)
+		-validateString(s: string): error
+	}
+}
+package "user" {
+	class "LengthErr" as user.LengthErr <<V,Orchid>> {
+		+Value: string
+		+Rule: string
+		+RuleValue: int
+		+Error(): string
+	}
+}
+package "user" {
+	class "Loader" as user.Loader <<E,#FFCC00>> {
+		-db: sqlxcontext.DB
+		-corm: corm.CORM
+		-logpub: invalid type
+		-encKey: []byte
+		-appID: int
+		-orgID: int
+		-rewardsID: int
+		-devID: int
+		-dataCenterID: int
+		-attrMap: map[string][]user.OrganizationModelAttribute
+		-ip: string
+		-now: func() invalid type
+		+SaveEmptyUserProfile: bool
+		+UserAutoCreate: bool
+		+UnlinkExternalIDs: bool
+		+ColumnFamilyMigration: bool
+		+PlayerDOYLoggingEnabled: bool
+		+SkipXIDConsistencyValidation: bool
+		+CreateOrUpdateUser(c: invalid type, h: lookup.Header, u: *user.User): err: error
+		-newKSPlayerID(): *user.ksPlayerInfo
+		+LogAppendedData(c: invalid type, h: lookup.Header, u: *user.User): error
+		-logAppendedData(c: invalid type, h: lookup.Header, u: *user.User, avl: *user.AcvLog): error
+		+UpdateOrCreateUnlinkedUser(c: invalid type, h: lookup.Header, u: *user.User): err: error
+		+CreateUser(c: invalid type, _: lookup.Header, u: *user.User): err: error
+		+AddBasicUser(c: invalid type, extID: string): (userID: string, playerID: int32, err: error)
+		+UpdateUser(c: invalid type, h: lookup.Header, u: *user.User): err: error
+		+UpdateUserWithAppendedData(c: invalid type, playerID: int, extID: string, reqKey: string, in: map[string]user.Value, cur: map[string]user.Value): error
+		-updateUserWithAppendedData(c: invalid type, db: user.dber, p: *user.Player, extID: string, reqKey: string, in: map[string]user.Value, cur: map[string]user.Value, avl: *user.AcvLog): err: error
+		-newAppendedData(): user.AppendedData
+		-validateRequestDataConsistency(db: user.dber, lookupTyp: string, u: *user.User): error
+		-validAppendedData(ad: user.AppendedData): error
+		-insert(c: invalid type, db: user.dber, lookupTyp: string, u: *user.User, avl: *user.AcvLog): (userKey: *user.KsUserKey, playerID: int32, err: error)
+		-insertPrimaryOrgUser(db: user.dber, u: *user.User, userID: string, playerID: int64, avl: *user.AcvLog): error
+		-insertAppendedData(c: invalid type, db: user.dber, u: *user.User, p: *user.Player, userID: string, pID: int32, avl: *user.AcvLog): error
+		-update(c: invalid type, db: user.dber, lookupTyp: string, u: *user.User, p: *user.Player, avl: *user.AcvLog): err: error
+		-updatePrimaryOrgUser(c: invalid type, db: user.dber, u: *user.User, userID: string, playerID: int64, avl: *user.AcvLog): error
+		-playerByLookupKey(db: user.dber, key: string, u: *user.User): (p: user.Player, err: error)
+		-playerByExtID(db: user.dber, u: *user.User): (p: user.Player, err: error)
+		-playerByEmail(db: user.dber, u: *user.User): (p: user.Player, err: error)
+		-playerByID(db: user.dber, playerID: int32): (*user.Player, error)
+		-playerByUserID(db: user.dber, userID: string): (p: user.Player, err: error)
+		-updateKsUser(ksUser: *user.KSUser, u: *user.User, now: invalid type, encKey: []byte)
+		-isUnknownYearUpdate(old: string, new: string): bool
+		-updatedPlayer(u: *user.User, now: invalid type, p: *user.Player, encKey: []byte): *user.Player
+		-newPlayer(u: *user.User, now: invalid type, userID: string, encKey: []byte, aID: int): *user.Player
+		-getLogFlags(): uint
+		-newPhoneNumber(number: string, encKey: []byte): *user.phoneNumber
+		-newPlayerPhoneNumber(pID: int64, pnID: int64, pn: *user.PhoneNumber): *user.playerPhoneNumber
+		-insertPlayerPhoneNumbers(db: user.dber, orgID: int64, pID: int64, phoneNumbers: []user.PhoneNumber, userID: string, avl: *user.AcvLog): error
+		-updatePlayerPhoneNumbers(db: user.dber, orgID: int64, pID: int64, pns: user.PhoneNumbersField, userID: string, avl: *user.AcvLog): error
+		-existingPhoneNumbers(db: user.dber, pID: int64): (map[string]int32, error)
+		-split(db: user.dber, numbers: []user.PhoneNumber, pID: int64): ([]user.PhoneNumber, []int32, error)
+		-unlinkPlayers(c: invalid type, db: user.dber, u: *user.User): error
+		-newUnlinkedUser(u: *user.User, encKey: []byte, orgID: int): *user.unlinkedUser
+		-insertUnlinkedUser(db: user.dber, u: *user.User): error
+		-newUnlinkedUserData(u: *user.User, t: user.Type, orgID: int): (*user.unlinkedUserData, error)
+		-insertUserData(db: user.dber, u: *user.User): error
+		-insertUserProfileData(db: user.dber, u: *user.User): error
+	}
+}
+package "user" {
+	class "NullTime" as user.NullTime <<V,Orchid>> {
+		+NullTime: mysql.NullTime
+		+Change(): (string, error)
+		+IsZero(): bool
+	}
+}
+package "user" {
+	class "Number" as user.Number <<E,#FFCC00>> {
+		-valid: bool
+		-number: invalid type
+		-cachedInt: sql.NullInt64
+		-cachedFloat: sql.NullFloat64
+		+Valid(): bool
+		+Int64(): (int64, error)
+		+String(): string
+		+Float64(): (float64, error)
+		+MarshalYAML(): (interface{}, error)
+		+UnmarshalYAML(unmarshal: func(interface{}) error): error
+	}
+}
+package "user" {
+	class "Numericality" as user.Numericality <<E,#FFCC00>> {
+		+GreaterThan: *user.Number
+		+GreaterThanOrEqual: *user.Number
+		+LessThan: *user.Number
+		+LessThanOrEqual: *user.Number
+		+Even: bool
+		+Odd: bool
+		+IntegerOnly: bool
+		+List: bool
+		+Scan(v: interface{}): error
+		+Value(): (driver.Value, error)
+		-validateInt64Number(rule: string, number: *user.Number, val: int64, ruleFn: func(ruleValue int64, val int64) bool): error
+		-validateInt64(i: int64): error
+		-validateFloat64Number(rule: string, number: *user.Number, val: float64, ruleFn: func(ruleValue float64, val float64) bool): error
+		-validateFloat64(f: float64): error
+	}
+}
+package "user" {
+	class "NumericalityErr" as user.NumericalityErr <<V,Orchid>> {
+		+Rule: string
+		+RuleValue: user.Value
+		+Value: user.Value
+		+Error(): string
+	}
+}
+package "user" {
+	class "OrgUser" as user.OrgUser <<V,Orchid>> {
+		+ID: int32
+		+OrgID: null.Int
+		+ExternalID: null.String
+		+PlayerID: null.Int
+		+ExternalIDType: null.String
+		+PrimaryKey(): string
+	}
+}
+package "user" {
+	class "OrganizationModelAttribute" as user.OrganizationModelAttribute <<E,#FFCC00>> {
+		+ID: int32
+		+OrganizationModelID: sql.NullInt64
+		+Name: sql.NullString
+		+DisplayName: sql.NullString
+		+AttributeType: user.AttributeType
+		+Filters: user.FilterRules
+		+Caseinsensitive: sql.NullBool
+		+Inclusion: enc.YAMLArray
+		+Exclusion: enc.YAMLArray
+		+Format: sql.NullString
+		+Length: *user.Length
+		+Numericality: *user.Numericality
+		+DataOrganizationModelID: sql.NullInt64
+		+IsList: sql.NullBool
+		+ComplexAttributes: []user.OrganizationModelAttribute
+		+ParseData(d: user.Data): (user.Value, error)
+		-parseText(t: user.Text): (user.Value, error)
+		-parseListText(t: user.Text): (user.Value, error)
+		-parseList(vs: []interface{}): (user.Value, error)
+		-validationError(v: interface{}, err: error): error
+		-validateString(s: string): error
+		-validateInt64(n: int64): error
+		-validateFloat64(f: float64): error
+		-validateComplex(m: map[string]interface{}): (map[string]user.Value, error)
+		-handleValue(v: interface{}): (user.Value, error)
+	}
+}
+package "user" {
+	class "PhoneDeactivator" as user.PhoneDeactivator <<E,#FFCC00>> {
+		-db: sqlxcontext.DB
+		-logpub: invalid type
+		-cl: client.Client
+		-encKey: []byte
+		-rwsID: int
+		+Deactivate(numbers: []string): (n: int, err: error)
+		-deactivate(id: int): err: error
+		-existingNumbers(numbers: []string): (ids: []int, err: error)
+	}
+}
+package "user" {
+	class "PhoneNumber" as user.PhoneNumber <<V,Orchid>> {
+		+PhoneNumber: string
+		+PhoneType: string
+		+PreferenceFlags: []string
+		+VerifiedOwnership: bool
+		-valid(): error
+	}
+}
+package "user" {
+	class "PhoneNumbersField" as user.PhoneNumbersField <<E,#FFCC00>> {
+		+PhoneNumbers: []user.PhoneNumber
+		+Present: bool
+		+UnmarshalCSV(data: []byte): error
+		+UnmarshalJSON(data: []byte): error
+	}
+}
+package "user" {
+	class "Player" as user.Player <<V,Orchid>> {
+		+ID: int32
+		+ExternalID: sql.NullString
+		+Email: enc.EncryptedUniqueString
+		+UserID: sql.NullString
+		+DOB: enc.NullEncryptedUniqueString
+		+YOB: sql.NullInt64
+		+FirstName: sql.NullString
+		+LastName: sql.NullString
+		+Gender: sql.NullString
+		+ZIP: sql.NullString
+		+HHI: sql.NullString
+		+Ethnicity: sql.NullString
+		+ParentalStatus: sql.NullString
+		+RegisteredApplicationID: sql.NullInt64
+		+DataCenterID: sql.NullInt64
+		+AccountStatus: sql.NullString
+		+IPAddress: sql.NullString
+		+RewardsSystemID: sql.NullInt64
+		+DMA: sql.NullString
+		+Country: sql.NullString
+		+OptedOut: sql.NullBool
+		+CreatedAt: user.NullTime
+		+UpdatedAt: user.NullTime
+	}
+}
+package "user" {
+	interface "Selecter" as user.Selecter {
+		+Select(dest: interface{}, query: string, args: []interface{}): error
+	}
+}
+package "user" {
+	class "Status" as user.Status <<E,#FFCC00>> {
+		+Scan(src: interface{}): error
+		+Value(): (driver.Value, error)
+	}
+}
+package "user" {
+	class "StringField" as user.StringField <<E,#FFCC00>> {
+		+NullString: sql.NullString
+		+Present: bool
+		+UnmarshalJSON(data: []byte): error
+		+UnmarshalCSV(data: []byte): error
+	}
+}
+package "user" {
+	class "Text" as user.Text <<V,Orchid>>
+}
+package "user" {
+	class "Type" as user.Type <<E,#FFCC00>> {
+		+Scan(src: interface{}): error
+		+Value(): (driver.Value, error)
+	}
+}
+package "user" {
+	class "UnsupportedFilterErr" as user.UnsupportedFilterErr <<V,Orchid>> {
+		+Filter: user.FilterRule
+		+Error(): string
+	}
+}
+package "user" {
+	class "User" as user.User <<V,Orchid>> {
+		+Email: user.StringField
+		+ExternalID: user.StringField
+		+ProxyID: user.StringField
+		+UserID: user.StringField
+		+Gender: user.StringField
+		+DOB: user.StringField
+		+Country: user.StringField
+		+State: user.StringField
+		+City: user.StringField
+		+ZIP: user.StringField
+		+DMA: user.StringField
+		+FirstName: user.StringField
+		+LastName: user.StringField
+		+HHI: user.StringField
+		+Ethnicity: user.StringField
+		+Locale: user.StringField
+		+ParentalStatus: user.StringField
+		+YOB: user.IntField
+		+SMEffectiveDate: user.StringField
+		+LinkIdentifier: user.StringField
+		+Address: user.StringField
+		+Address2: user.StringField
+		+OptedOut: user.BoolField
+		+AppendedData: user.AppendedData
+		+ExternalIDs: map[string][]string
+		+PhoneNumbers: user.PhoneNumbersField
+		+Validate(h: lookup.Header): error
+	}
+}
+package "user" {
+	class "ValidationErr" as user.ValidationErr <<V,Orchid>> {
+		+Type: user.AttributeType
+		+Attr: string
+		+Value: user.Value
+		+Err: error
+		+Error(): string
+	}
+}
+package "user" {
+	interface "Value" as user.Value
+}
+package "user" {
+	class "bufferedLogKey" as user.bufferedLogKey <<V,Orchid>>
+}
+package "user" {
+	interface "dber" as user.dber {
+		+Exec(query: string, args: []interface{}): (sql.Result, error)
+		+Get(dest: interface{}, query: string, args: []interface{}): error
+		+NamedExec(query: string, arg: interface{}): (sql.Result, error)
+		+PrepareNamed(query: string): (sqlxcontext.NamedStmt, error)
+		+Query(query: string, args: []interface{}): (sql.Rows, error)
+		+Select(: interface{}, : string, : []interface{}): error
+	}
+}
+package "user" {
+	class "guardedLazyLogger" as user.guardedLazyLogger <<E,#FFCC00>> {
+		+Mutex: sync.Mutex
+		+Logger: activitylog.Logger
+		+Log(entries: activitylog.Entry): error
+		+LogReset()
+		+SetLogOutput(w: io.Writer)
+		+SetLogEncoding(e: activitylog.Encoder)
+		+UseAppendOnlyLog(c: invalid type, cfgOption: bool): error
+	}
+}
+package "user" {
+	class "ksPlayerInfo" as user.ksPlayerInfo <<V,Orchid>> {
+		+Model: corm.Model
+		+PlayerID: int32
+	}
+}
+package "user" {
+	class "phoneNumber" as user.phoneNumber <<V,Orchid>> {
+		+ID: int32
+		+PhoneNumber: enc.NullEncryptedUniqueString
+		+OldPhoneNumber: enc.EncryptedUniqueString
+		+CreatedAt: null.Time
+		+UpdatedAt: null.Time
+		+PhoneCarrierID: null.Int
+	}
+}
+package "user" {
+	class "playerPhoneNumber" as user.playerPhoneNumber <<V,Orchid>> {
+		+ID: int32
+		+PhoneNumberID: int32
+		+PlayerID: int32
+		+VerifiedOwnership: bool
+		+PhoneType: null.String
+		+PreferenceFlags: uint32
+		+CreatedAt: null.Time
+		+UpdatedAt: null.Time
+	}
+}
+package "user" {
+	class "skipAppendedDataKey" as user.skipAppendedDataKey <<V,Orchid>>
+}
+package "user" {
+	class "unlinkedUser" as user.unlinkedUser <<V,Orchid>> {
+		+ID: int32
+		+OrganizationID: sql.NullInt64
+		+ExternalID: sql.NullString
+		+LinkIdentifierEncrypted: enc.NullEncryptedUniqueString
+		+Code: sql.NullString
+		+Status: user.Status
+		+PlayerID: sql.NullInt64
+		+UserID: sql.NullString
+		+ImportedAt: mysql.NullTime
+		+CreatedAt: mysql.NullTime
+		+UpdatedAt: mysql.NullTime
+	}
+}
+package "user" {
+	class "unlinkedUserData" as user.unlinkedUserData <<V,Orchid>> {
+		+ID: int32
+		+OrganizationID: sql.NullInt64
+		+ExternalID: sql.NullString
+		+Type: user.Type
+		+DataEncrypted: enc.EncryptedString
+	}
+}
+package "user" {
+	class "userData" as user.userData <<V,Orchid>> {
+		+User: *user.User
+		+UserProfile: map[string]string
+	}
+}
+
